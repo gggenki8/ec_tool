@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC商品説明文ジェネレーター</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="layout">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">生成履歴</span>
+        <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
+      </div>
+      <div class="history-list" id="historyList"></div>
+      <button class="clear-btn" onclick="clearHistory()">履歴を削除</button>
+    </aside>
+
+    <main class="main">
+      <div class="page">
+
+        <header class="header">
+          <div class="header-left">
+            <div class="badge">AI powered</div>
+            <h1>商品説明文を、<br>瞬時に量産する。</h1>
+            <p class="subtitle">商品情報を入力するだけで、各モールに最適化された説明文を自動生成します。</p>
+          </div>
+          <button class="history-btn" onclick="toggleSidebar()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            履歴
+          </button>
+        </header>
+
+        <div class="stats">
+          <div class="stat"><div class="stat-num">4+</div><div class="stat-label">対応媒体</div></div>
+          <div class="stat"><div class="stat-num">10秒</div><div class="stat-label">平均生成時間</div></div>
+          <div class="stat"><div class="stat-num">98%</div><div class="stat-label">時間削減率</div></div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">商品情報</div>
+          <div class="grid2">
+            <div class="field">
+              <label>商品名 <span class="required">必須</span></label>
+              <input type="text" id="productName" placeholder="例：ワイヤレスイヤホン Pro X">
+            </div>
+            <div class="field">
+              <label>カテゴリ <span class="required">必須</span></label>
+              <select id="category">
+                <option value="">選択してください</option>
+                <option value="electronics">家電・電子機器</option>
+                <option value="fashion">ファッション</option>
+                <option value="beauty">美容・コスメ</option>
+                <option value="food">食品・飲料</option>
+                <option value="sports">スポーツ・アウトドア</option>
+                <option value="home">インテリア・生活用品</option>
+                <option value="other">その他</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>特徴・スペック <span class="required">必須</span></label>
+            <textarea id="features" rows="4" placeholder="・ノイズキャンセリング機能&#10;・バッテリー30時間&#10;・防水IPX5&#10;・重さ250g"></textarea>
+          </div>
+
+          <div class="grid2">
+            <div class="field">
+              <label>販売価格 <span class="required">必須</span></label>
+              <input type="text" id="price" placeholder="例：9,800円">
+            </div>
+            <div class="field">
+              <label>ターゲット層 <span class="required">必須</span></label>
+              <input type="text" id="target" placeholder="例：20〜30代のビジネスマン">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>他社との差別化ポイント <span class="required">必須</span></label>
+            <textarea id="uniqueness" rows="3" placeholder="例：同価格帯で業界最長のバッテリー寿命、国内メーカーによる1年保証付き"></textarea>
+          </div>
+
+          <div class="field">
+            <label>その他補足 <span class="optional">任意</span></label>
+            <input type="text" id="note" placeholder="例：セット販売・限定カラーなど">
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">出力媒体</div>
+          <div class="platforms">
+            <div class="platform-chip active" data-value="amazon" onclick="togglePlatform(this)"><span class="dot"></span>Amazon</div>
+            <div class="platform-chip" data-value="rakuten" onclick="togglePlatform(this)"><span class="dot"></span>楽天市場</div>
+            <div class="platform-chip" data-value="shopify" onclick="togglePlatform(this)"><span class="dot"></span>Shopify</div>
+            <div class="platform-chip" data-value="sns" onclick="togglePlatform(this)"><span class="dot"></span>SNS投稿文</div>
+          </div>
+        </div>
+
+        <div class="usage-bar">
+          <span class="usage-text">本日の残り生成回数：<strong id="usageCount">3</strong> / 50回</span>
+          <a href="#" class="upgrade-link">無制限プランへ →</a>
+        </div>
+
+        <button class="generate-btn" id="generateBtn" onclick="generate()">説明文を生成する</button>
+
+        <div id="resultArea"></div>
+
+      </div>
+    </main>
+  </div>
+
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+  <script src="script.js"></script>
+</body>
+</html>
